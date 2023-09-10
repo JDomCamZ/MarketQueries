@@ -24,28 +24,27 @@ public class MarketDatesMapper extends MapReduceBase implements Mapper<LongWrita
         fechaFin = job.get("fechaFin");
     }
     
+    @Override
     public void map(LongWritable key, Text value, OutputCollector<Text, Text> output, Reporter reporter) throws IOException {
         String line = value.toString();
         String[] fields = line.split(",");
 
-        if (fields.length >= 11) {
-            String dateStr = fields[10];
+        String dateStr = fields[10];
 
-            SimpleDateFormat dateFormat = new SimpleDateFormat("M/d/yyyy");
-            try {
-                Date date = dateFormat.parse(dateStr);
-                Date startDate = dateFormat.parse(fechaInicio);
-                Date endDate = dateFormat.parse(fechaFin);
+        SimpleDateFormat dateFormat = new SimpleDateFormat("M/d/yyyy");
+        try {
+            Date date = dateFormat.parse(dateStr);
+            Date startDate = dateFormat.parse(fechaInicio);
+            Date endDate = dateFormat.parse(fechaFin);
 
-                if (date.after(startDate) && date.before(endDate)) {
-                    // Si la fecha está dentro del intervalo, emitir la línea
-                    outputKey.set(dateStr);
-                    outputValue.set(fields[0] + "," + fields[1] + "," + fields[2]);
-                    output.collect(outputKey, outputValue);
-                }
-            } catch (ParseException e) {
-                // Manejar errores de formato de fecha si es necesario
+            if (date.after(startDate) && date.before(endDate)) {
+                // Si la fecha está dentro del intervalo, emitir la línea
+                outputKey.set(dateStr);
+                outputValue.set(fields[0] + ", " + fields[5] + ", " + fields[13]);
+                output.collect(outputKey, outputValue);
             }
+        } catch (ParseException e) {
+            // Manejar errores de formato de fecha si es necesario
         }
     }
 }
