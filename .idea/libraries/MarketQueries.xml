@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="MarketQueries">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/dist/MarketQueries.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
