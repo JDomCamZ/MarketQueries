@@ -227,6 +227,7 @@ public class MarketQueries {
             e.printStackTrace();
         }
     }
+    
     static void SubString(String input, String output, String sub) {
         JobClient my_client = new JobClient();
         // Create a configuration object for the job
