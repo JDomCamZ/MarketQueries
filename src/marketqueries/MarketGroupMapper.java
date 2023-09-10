@@ -18,19 +18,16 @@ public class MarketGroupMapper extends MapReduceBase implements Mapper<LongWrita
 
     public void map(LongWritable key, Text value, OutputCollector<Text, IntWritable> output, Reporter reporter) throws IOException {
         String valueString = value.toString();
-        String[] SingleCountryData = valueString.split(",");
+        String[] SingleCombination = valueString.split(",");
 
-        // Verificar si hay al menos tres campos
-        if (SingleCountryData.length >= 5) {
-            String city = SingleCountryData[2];
-            String customerType = SingleCountryData[3];
-            String gender = SingleCountryData[4];
+        String city = SingleCombination[2];
+        String customerType = SingleCombination[3];
+        String gender = SingleCombination[4];
 
-            // Crear una clave que represente la combinación de ciudad, tipo de consumidor y género
-            String combinationKey = city + "," + customerType + "," + gender;
+        // Crear una clave que represente la combinación de ciudad, tipo de consumidor y género
+        String combinationKey = city + "," + customerType + "," + gender;
 
             // Emitir la combinación como clave y 1 como valor
-            output.collect(new Text(combinationKey), one);
-        }
+        output.collect(new Text(combinationKey), one);
     }
 }
