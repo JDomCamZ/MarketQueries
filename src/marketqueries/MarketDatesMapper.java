@@ -17,7 +17,7 @@ public class MarketDatesMapper extends MapReduceBase implements Mapper<LongWrita
     private final Text outputValue = new Text();
     String fechaInicio, fechaFin; 
 
-     @Override
+    @Override
     public void configure(JobConf job) {
         // Recuperar los valores configurados en el método main
         fechaInicio = job.get("fechaInicio");
