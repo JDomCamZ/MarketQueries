@@ -29,8 +29,9 @@ public class MarketQueries {
             case "group":
                 grouping(args[0], args[1]);
                 break;
-            case "consulta2":
+            case "minmax":
                 // Lógica para la segunda consulta
+                MinMax(args[0], args[1]);
                 break;
             case "dates":
                 String fechaInit = args[3];
@@ -125,11 +126,11 @@ public class MarketQueries {
 
         // Specify data type of output key and value
         job_conf.setOutputKeyClass(Text.class);
-        job_conf.setOutputValueClass(IntWritable.class);
+        job_conf.setOutputValueClass(DoubleWritable.class);
 
         // Specify names of Mapper and Reducer Class
-        job_conf.setMapperClass(marketqueries.MinInGroupMapper.class);
-        job_conf.setReducerClass(marketqueries.MinInGroupReducer.class);
+        job_conf.setMapperClass(marketqueries.MinMaxMapper.class);
+        job_conf.setReducerClass(marketqueries.MinMaxReducer.class);
 
         // Specify formats of the data type of Input and output
         job_conf.setInputFormat(TextInputFormat.class);

@@ -8,25 +8,28 @@ package marketqueries;
 import java.io.IOException;
 import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.Text;
+import org.apache.hadoop.io.*;
 import org.apache.hadoop.mapred.*;
 import java.util.*;
 /**
  *
  * @author Miguel Huamani <miguel.huamani.r@uni.pe>
  */
-public class MinInGroupReducer extends MapReduceBase implements Reducer<Text, IntWritable, Text, IntWritable> {
+public class MinMaxReducer extends MapReduceBase implements Reducer<Text, DoubleWritable, Text, Text> {
 
-    public void reduce(Text key, Iterator<IntWritable> values, OutputCollector<Text, IntWritable> output, Reporter reporter) throws IOException {
+    public void reduce(Text key, Iterator<DoubleWritable> values, OutputCollector<Text, Text> output, Reporter reporter) throws IOException {
         // El Reducer no necesita realizar una suma, ya que los conteos ya están calculados en el Mapper
-        int total = 0;
-
+        double min = values.next().get();
+        double max =min;
         // Sumar los valores (que son 1) para contar la frecuencia
         while (values.hasNext()) {
-            total += values.next().get();
-            
+            double aux= values.next().get();
+            if(aux<min)min=aux;
+            if(aux>max)max=aux;
         }
-
+        String minMax = "Minimo:"+min+"   -    Maximo:"+ max;
         // Emitir la combinación y su frecuencia
-        output.collect(key, new IntWritable(total));
+        output.collect(key, new Text(minMax));
+        
     }
 }
