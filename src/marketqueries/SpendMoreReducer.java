@@ -33,7 +33,6 @@ public class SpendMoreReducer extends MapReduceBase implements Reducer<Text, Tex
             while (values.hasNext()&&cont<cantidadInt) {
                String[] datos = values.next().toString().split(","); 
                String info=datos[1]+","+datos[2]+","+datos[3]+","+datos[4];
-               
                String id=datos[0];
                output.collect(new Text(id), new Text(info));
                cont+=1;

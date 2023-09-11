@@ -43,7 +43,7 @@ public class SpendMoreMapper extends MapReduceBase implements Mapper<LongWritabl
             double total =Double.parseDouble(SingleCombination[9]);
                 // Si la fecha está dentro del intervalo, emitir la línea
                 //outputKey.set(dateStr);
-            String info=id+","+product+","+","+city+","+customerType+","+total;
+            String info=id+","+product+","+city+","+customerType+","+total;
             if(total>costoDou)output.collect(new Text(" "), new Text(info));
         } catch (NumberFormatException e) {
             System.err.println("Error en la conversión de " + " " + " a double.");
