@@ -24,6 +24,7 @@ public class MarketAvgSpendReducer extends MapReduceBase implements Reducer<Text
             count++;
         }
 
+        //Hallar el promedio para cada genero
         if (count > 0) {
             double averageSpending = total / count;
             result.set(averageSpending);

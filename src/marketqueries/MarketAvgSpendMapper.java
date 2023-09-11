@@ -48,9 +48,9 @@ public class MarketAvgSpendMapper extends MapReduceBase implements Mapper<LongWr
                     output.collect(new Text(gender), total);
                 }
             } catch (NumberFormatException e) {
-                // Manejar errores de formato de número si es necesario
+            
             } catch (ParseException e2f) {
-            // Manejar errores de formato de fecha si es necesario
+            
             }
         }
     }

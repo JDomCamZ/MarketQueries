@@ -23,7 +23,7 @@ public class MarketGeoMeanMapper extends MapReduceBase implements Mapper<LongWri
             total.set(totalValue);
             output.collect(new Text("Total"), total);
         } catch (NumberFormatException e) {
-            // Manejar errores de formato de número si es necesario
+            
         }  
     }
 }

@@ -27,7 +27,7 @@ public class MarketGroupMapper extends MapReduceBase implements Mapper<LongWrita
         // Crear una clave que represente la combinación de ciudad, tipo de consumidor y género
         String combinationKey = city + ", " + customerType + ", " + gender;
 
-            // Emitir la combinación como clave y 1 como valor
+        // Emitir la combinación como clave y 1 como valor
         output.collect(new Text(combinationKey), one);
     }
 }

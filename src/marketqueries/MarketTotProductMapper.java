@@ -57,9 +57,9 @@ public class MarketTotProductMapper extends MapReduceBase implements Mapper<Long
             }
 
         } catch (NumberFormatException e) {
-        // Manejar errores de formato de número si es necesario
+        
         } catch (ParseException e2f) {
-            // Manejar errores de formato de fecha si es necesario
+        
         }
     }
 }

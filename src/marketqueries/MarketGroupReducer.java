@@ -18,7 +18,6 @@ import java.util.*;
 public class MarketGroupReducer extends MapReduceBase implements Reducer<Text, IntWritable, Text, IntWritable> {
 
     public void reduce(Text key, Iterator<IntWritable> values, OutputCollector<Text, IntWritable> output, Reporter reporter) throws IOException {
-        // El Reducer no necesita realizar una suma, ya que los conteos ya están calculados en el Mapper
         int total = 0;
 
         // Sumar los valores (que son 1) para contar la frecuencia

@@ -17,13 +17,15 @@ public class MarketGeoMeanReducer extends MapReduceBase implements Reducer<Text,
     public void reduce(Text key, Iterator<DoubleWritable> values, OutputCollector<Text, DoubleWritable> output, Reporter reporter) throws IOException {
         double sumOfLogs = 0.0;
         int count = 0;
-
+        
+        //Aplicar logaritmos a los valores para no hacer crecer el valor hasta al infinito
         while (values.hasNext()) {
             double value = values.next().get();
             sumOfLogs += Math.log(value);
             count++;
         }
 
+        //Aplicar exponencial para hallar la media geometrica
         if (count > 0) {
             double geometricMean = Math.exp(sumOfLogs / count);
             result.set(geometricMean);

@@ -44,7 +44,7 @@ public class MarketDatesMapper extends MapReduceBase implements Mapper<LongWrita
                 output.collect(outputKey, outputValue);
             }
         } catch (ParseException e) {
-            // Manejar errores de formato de fecha si es necesario
+            
         }
     }
 }
