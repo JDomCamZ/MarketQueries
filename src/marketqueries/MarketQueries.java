@@ -61,6 +61,14 @@ public class MarketQueries {
                 fechaFin = args[5];
                 cityavgspend(args[0], args[1], ciudad, fechaInit, fechaFin);
                 break;
+            case "average":
+                 Average(args[0], args[1]);
+                 break;
+            case "spend":
+                String cantidad = args[3];
+                String costo = args[4];
+                SpendMore(args[0],args[1],cantidad,costo);
+                break;
             default:
                 System.err.println("Consulta no válida: " + consulta);
                 System.exit(1);
@@ -333,6 +341,76 @@ public class MarketQueries {
         // Specify names of Mapper and Reducer Class
         job_conf.setMapperClass(marketqueries.MarketAvgSpendMapper.class);
         job_conf.setReducerClass(marketqueries.MarketAvgSpendReducer.class);
+
+        // Specify formats of the data type of Input and output
+        job_conf.setInputFormat(TextInputFormat.class);
+        job_conf.setOutputFormat(TextOutputFormat.class);
+
+        // Set input and output directories using command line arguments,
+        //arg[0] = name of input directory on HDFS, and arg[1] =  name of output directory to be created to store the output file.
+
+        FileInputFormat.setInputPaths(job_conf, new Path(input));
+        FileOutputFormat.setOutputPath(job_conf, new Path(output));
+
+        my_client.setConf(job_conf);
+        try {
+            // Run the job
+            JobClient.runJob(job_conf);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    static void Average(String input, String output){
+        JobClient my_client = new JobClient();
+        // Create a configuration object for the job
+        JobConf job_conf = new JobConf(MarketQueries.class);
+
+        // Set a name of the Job
+        job_conf.setJobName("AverageProducts");
+
+        // Specify data type of output key and value
+        job_conf.setOutputKeyClass(Text.class);
+        job_conf.setOutputValueClass(Text.class);
+
+        // Specify names of Mapper and Reducer Class
+        job_conf.setMapperClass(marketqueries.AverageProductsMapper.class);
+        job_conf.setReducerClass(marketqueries.AverageProductsReducer.class);
+
+        // Specify formats of the data type of Input and output
+        job_conf.setInputFormat(TextInputFormat.class);
+        job_conf.setOutputFormat(TextOutputFormat.class);
+
+        // Set input and output directories using command line arguments,
+        //arg[0] = name of input directory on HDFS, and arg[1] =  name of output directory to be created to store the output file.
+
+        FileInputFormat.setInputPaths(job_conf, new Path(input));
+        FileOutputFormat.setOutputPath(job_conf, new Path(output));
+
+        my_client.setConf(job_conf);
+        try {
+            // Run the job
+            JobClient.runJob(job_conf);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    static void SpendMore(String input, String output, String cantidad, String costo) {
+        JobClient my_client = new JobClient();
+        // Create a configuration object for the job
+        JobConf job_conf = new JobConf(MarketQueries.class);
+
+        // Set a name of the Job
+        job_conf.setJobName("SpendMore");
+        job_conf.set("cantidad", cantidad);
+        job_conf.set("costo",costo);
+
+        // Specify data type of output key and value
+        job_conf.setOutputKeyClass(Text.class);
+        job_conf.setOutputValueClass(Text.class);
+
+        // Specify names of Mapper and Reducer Class
+        job_conf.setMapperClass(marketqueries.MarketAvgSpendMapper.class);
+        job_conf.setReducerClass(marketqueries.SpendMoreReducer.class);
 
         // Specify formats of the data type of Input and output
         job_conf.setInputFormat(TextInputFormat.class);
