@@ -41,20 +41,27 @@ public class MarketQueries {
             case "geomean":
                 geomean(args[0], args[1]);
                 break;
-             case "sub":
-                 String subcadena = args[3];
-                 SubString(args[0], args[1], subcadena);
-                 break;
-             case "mode":
-                 Mode(args[0], args[1]);
-                 break;
-             case "totproduct":
-                 String product = args[3];
-                 String payMeth = args[4];
-                 fechaInit = args[5];
-                 fechaFin = args[6];
-                 totproduct(args[0], args[1], product, payMeth, fechaInit, fechaFin);
-                 break;
+            case "sub":
+                String subcadena = args[3];
+                SubString(args[0], args[1], subcadena);
+                break;
+            case "mode":
+                Mode(args[0], args[1]);
+                break;
+            case "totproduct":
+                String product = args[3];
+                String payMeth = args[4];
+                String rating = args[5];
+                fechaInit = args[6];
+                fechaFin = args[7];
+                totproduct(args[0], args[1], product, payMeth, rating, fechaInit, fechaFin);
+                break;
+            case "cityspend":
+                String ciudad = args[3];
+                fechaInit = args[4];
+                fechaFin = args[5];
+                cityavgspend(args[0], args[1], ciudad, fechaInit, fechaFin);
+                break;
             default:
                 System.err.println("Consulta no válida: " + consulta);
                 System.exit(1);
@@ -304,7 +311,7 @@ public class MarketQueries {
             e.printStackTrace();
         }
     }
-    static void totproduct(String input, String output, String prod, String pay, String dateInt, String dateFin) {
+    static void totproduct(String input, String output, String prod, String pay, String rating, String dateInt, String dateFin) {
         JobClient my_client = new JobClient();
         // Create a configuration object for the job
         JobConf job_conf = new JobConf(MarketQueries.class);
@@ -315,6 +322,7 @@ public class MarketQueries {
         job_conf.set("payment", pay);
         job_conf.set("fechaInicio", dateInt);
         job_conf.set("fechaFin", dateFin);
+        job_conf.set("rating", rating);
 
         // Specify data type of output key and value
         job_conf.setOutputKeyClass(Text.class);
@@ -323,6 +331,44 @@ public class MarketQueries {
         // Specify names of Mapper and Reducer Class
         job_conf.setMapperClass(marketqueries.MarketTotProductMapper.class);
         job_conf.setReducerClass(marketqueries.MarketTotProductReducer.class);
+
+        // Specify formats of the data type of Input and output
+        job_conf.setInputFormat(TextInputFormat.class);
+        job_conf.setOutputFormat(TextOutputFormat.class);
+
+        // Set input and output directories using command line arguments,
+        //arg[0] = name of input directory on HDFS, and arg[1] =  name of output directory to be created to store the output file.
+
+        FileInputFormat.setInputPaths(job_conf, new Path(input));
+        FileOutputFormat.setOutputPath(job_conf, new Path(output));
+
+        my_client.setConf(job_conf);
+        try {
+            // Run the job
+            JobClient.runJob(job_conf);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
+    static void cityavgspend(String input, String output, String city, String dateInt, String dateFin) {
+        JobClient my_client = new JobClient();
+        // Create a configuration object for the job
+        JobConf job_conf = new JobConf(MarketQueries.class);
+
+        // Set a name of the Job
+        job_conf.setJobName("MarketCitySpend");
+        job_conf.set("ciudad", city);
+        job_conf.set("fechaInicio", dateInt);
+        job_conf.set("fechaFin", dateFin);
+
+        // Specify data type of output key and value
+        job_conf.setOutputKeyClass(Text.class);
+        job_conf.setOutputValueClass(DoubleWritable.class);
+
+        // Specify names of Mapper and Reducer Class
+        job_conf.setMapperClass(marketqueries.MarketAvgSpendMapper.class);
+        job_conf.setReducerClass(marketqueries.MarketAvgSpendReducer.class);
 
         // Specify formats of the data type of Input and output
         job_conf.setInputFormat(TextInputFormat.class);

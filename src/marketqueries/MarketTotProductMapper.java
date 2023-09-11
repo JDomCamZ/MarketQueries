@@ -17,7 +17,7 @@ import java.util.Date;
 
 public class MarketTotProductMapper extends MapReduceBase implements Mapper<LongWritable, Text, Text, DoubleWritable> {
     private final DoubleWritable total = new DoubleWritable();
-    String fechaInit, fechaFin, producto, pago;
+    String fechaInit, fechaFin, producto, pago, rate;
     
     @Override
     public void configure(JobConf job) {
@@ -26,6 +26,7 @@ public class MarketTotProductMapper extends MapReduceBase implements Mapper<Long
         fechaFin = job.get("fechaFin");
         producto = job.get("producto");
         pago = job.get("payment");
+        rate = job.get("rating");
     }
 
     @Override
@@ -41,13 +42,16 @@ public class MarketTotProductMapper extends MapReduceBase implements Mapper<Long
         try {
             Date date = dateFormat.parse(dateStr);
             Date startDate = dateFormat.parse(fechaInit);
-            Date endDate = dateFormat.parse(fechaFin);   
+            Date endDate = dateFormat.parse(fechaFin);  
+            double rating = Double.parseDouble(rate);
             
             double totalValue = Double.parseDouble(fields[9]);
+            double ratingValue = Double.parseDouble(fields[16]);
 
             if (date.after(startDate) && date.before(endDate) &&
                 productLine.equals(producto) &&
-                paymentMethod.equals(pago)) {
+                paymentMethod.equals(pago) &&
+                ratingValue > rating) {
                 total.set(totalValue);
                 output.collect(new Text("Ventas"), total);
             }
