@@ -61,10 +61,10 @@ public class MarketQueries {
                 fechaFin = args[5];
                 cityavgspend(args[0], args[1], ciudad, fechaInit, fechaFin);
                 break;
-            case "average":
+            case "avgproduct":
                  Average(args[0], args[1]);
                  break;
-            case "spend":
+            case "spendmore":
                 String cantidad = args[3];
                 String costo = args[4];
                 SpendMore(args[0],args[1],cantidad,costo);
@@ -409,7 +409,7 @@ public class MarketQueries {
         job_conf.setOutputValueClass(Text.class);
 
         // Specify names of Mapper and Reducer Class
-        job_conf.setMapperClass(marketqueries.MarketAvgSpendMapper.class);
+        job_conf.setMapperClass(marketqueries.SpendMoreMapper.class);
         job_conf.setReducerClass(marketqueries.SpendMoreReducer.class);
 
         // Specify formats of the data type of Input and output

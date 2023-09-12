@@ -10,9 +10,6 @@ package marketqueries;
  * @author Miguel Huamani <miguel.huamani.r@uni.pe>
  */
 import java.io.IOException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import org.apache.hadoop.io.*;
 import org.apache.hadoop.mapred.*;
 
