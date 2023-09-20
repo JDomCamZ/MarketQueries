@@ -64,10 +64,11 @@ public class MarketQueries {
             case "avgproduct":
                  Average(args[0], args[1]);
                  break;
-            case "spendmore":
-                String cantidad = args[3];
-                String costo = args[4];
-                SpendMore(args[0],args[1],cantidad,costo);
+            case "ID":
+                String id = args[3];
+                String cantidad = args[4];
+                
+                IdProducts(args[0],args[1],id,cantidad);
                 break;
             default:
                 System.err.println("Consulta no válida: " + consulta);
@@ -394,23 +395,23 @@ public class MarketQueries {
             e.printStackTrace();
         }
     }
-    static void SpendMore(String input, String output, String cantidad, String costo) {
+    static void IdProducts(String input, String output, String subId, String cantidad) {
         JobClient my_client = new JobClient();
         // Create a configuration object for the job
         JobConf job_conf = new JobConf(MarketQueries.class);
 
         // Set a name of the Job
-        job_conf.setJobName("SpendMore");
+        job_conf.setJobName("IdProducts");
         job_conf.set("cantidad", cantidad);
-        job_conf.set("costo",costo);
+        job_conf.set("id",subId);
 
         // Specify data type of output key and value
         job_conf.setOutputKeyClass(Text.class);
         job_conf.setOutputValueClass(Text.class);
 
         // Specify names of Mapper and Reducer Class
-        job_conf.setMapperClass(marketqueries.SpendMoreMapper.class);
-        job_conf.setReducerClass(marketqueries.SpendMoreReducer.class);
+        job_conf.setMapperClass(marketqueries.IdProductsMapper.class);
+        job_conf.setReducerClass(marketqueries.IdProductsReducer.class);
 
         // Specify formats of the data type of Input and output
         job_conf.setInputFormat(TextInputFormat.class);

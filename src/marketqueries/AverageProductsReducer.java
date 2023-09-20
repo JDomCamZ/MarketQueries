@@ -60,10 +60,4 @@ public class AverageProductsReducer extends MapReduceBase implements Reducer<Tex
         }
         return moda;
     }
-    /*
-    @Override
-    public void configure(JobConf job) {
-        // Recuperar los valores configurados en e
-        
-    }*/
 }
