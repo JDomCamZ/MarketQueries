@@ -40,7 +40,7 @@ public class MarketDatesMapper extends MapReduceBase implements Mapper<LongWrita
             if (date.after(startDate) && date.before(endDate)) {
                 // Si la fecha está dentro del intervalo, emitir la línea
                 outputKey.set(dateStr);
-                outputValue.set(fields[0] + ", " + fields[5] + ", " + fields[13]);
+                outputValue.set(fields[0] + ", " + fields[5] + ", " + fields[9]);
                 output.collect(outputKey, outputValue);
             }
         } catch (ParseException e) {
